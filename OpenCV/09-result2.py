@@ -13,14 +13,17 @@ while True:
     low_color = np.array([2, 110, 171 ])          #min range of colour
     high_color = np.array ([35, 255, 255])         #max range of colour
     color_mask = cv2.inRange(hsv, low_color, high_color)    #masking between two range of colour
+    color = cv2.bitwise_and(resized, resized, mask=color_mask)
     
     blur = cv2.GaussianBlur(color_mask, (15, 15), 0)    
-    edge = cv2.Canny(blur, 100, 200)
+    edge = cv2.Canny(blur, 100, 200) 
 
-    print(blur)
-    # print(edge)
+    pix = np.asarray(blur)   
+    exist = np.where(pix[::]==255)
+    index = np.asarray(exist[0])
 
-    cv2.imshow("From blurred", blur)
+    print(index)
+
     cv2.imshow("From edge", edge)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
